@@ -95,7 +95,7 @@ autoscale: true
 ## John's Laws of Clean Functional Code
 
 1. *Reasonability* is directly proportional to *totality* & *referential-transparency*.
-2. *Composability* is inversely proportional to *number of types*.
+2. *Composability* is inversely proportional to *number of data types*.
 3. *Obfuscation* is directly proportional to *number of lawless interfaces*.
 4. *Correctness* is directly proportional to *degree of polymorphism*.
 5. *Shoddiness* is directly proportional to *encapsulation*.
@@ -107,6 +107,19 @@ autoscale: true
 ## akka.stream
 
 AbruptTerminationException AbstractShape ActorAttributes ActorMaterializer ActorMaterializerSettings AmorphousShape Attributes BidiShape BindFailedException BufferOverflowException Client ClosedShape ConnectionException DelayOverflowStrategy EagerClose FanInShape FanInShape10 FanInShape11 FanInShape12 FanInShape13 FanInShape14 FanInShape15 FanInShape16 FanInShape17 FanInShape18 FanInShape19 FanInShape1N FanInShape2 FanInShape20 FanInShape21 FanInShape22 FanInShape3 FanInShape4 FanInShape5 FanInShape6 FanInShape7 FanInShape8 FanInShape9 FanOutShape FanOutShape10 FanOutShape11 FanOutShape12 FanOutShape13 FanOutShape14 FanOutShape15 FanOutShape16 FanOutShape17 FanOutShape18 FanOutShape19 FanOutShape2 FanOutShape20 FanOutShape21 FanOutShape22 FanOutShape3 FanOutShape4 FanOutShape5 FanOutShape6 FanOutShape7 FanOutShape8 FanOutShape9 FlowMonitor FlowMonitorState FlowShape Fusing Graph IgnoreBoth IgnoreCancel IgnoreComplete Inlet InPort IOResult KillSwitch KillSwitches MaterializationContext MaterializationException Materializer MaterializerLoggingProvider Outlet OutPort OverflowStrategy QueueOfferResult RateExceededException Server Shape SharedKillSwitch SinkShape SourceShape StreamLimitReachedException StreamSubscriptionTimeoutSettings StreamSubscriptionTimeoutTerminationMode StreamTcpException SubstreamCancelStrategy Supervision ThrottleMode TLSClientAuth TLSClosing TLSProtocol TLSRole UniformFanInShape UniformFanOutShape UniqueKillSwitch
+
+---
+
+# What Can Save Us?!?
+
+## John's Laws of Clean Functional Code
+
+1. *Reasonability* is directly proportional to *totality* & *referential-transparency*.
+2. *Composability* is inversely proportional to *number of data types*.
+3. *Obfuscation* is directly proportional to *number of lawless interfaces*.
+4. *Correctness* is directly proportional to *degree of polymorphism*.
+5. *Shoddiness* is directly proportional to *encapsulation*.
+6. *Volume* is inversely proportional to *orthogonality*.
 
 ---
 
