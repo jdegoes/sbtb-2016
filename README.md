@@ -1,7 +1,7 @@
-# Advanced Functional Programming in Scala
+# Streams for (Co)Free
 
-This is the repository for exercises for Advanced Functional Programming in
-Scala, a LambdaConf workshop taught by @jdegoes.
+This is the repository for exercises for Streams for (Co)Free!,
+a Scala By The Bay presentation given by @jdegoes.
 
 # Getting Started
 
@@ -14,5 +14,5 @@ sbt
 
 SBT should download all dependencies and compile the source code.
 
-Then open up the `src/main/scala/` directory. You will find one file for each
-section of the workshop, and exercises in each file.
+Then open up the `src/main/scala/` directory. You will find `cofree.scala`,
+which contains all sample code.
