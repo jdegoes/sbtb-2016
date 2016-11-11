@@ -16,7 +16,7 @@ autoscale: true
 
 # Induction
 
-### Statefully tear down a structure to culminate in a value.
+### Tear down a structure to culminate in a terminal value.
 
 ---
 
@@ -37,7 +37,7 @@ autoscale: true
 
 # Coinduction
 
-### Start from a value to statefully build up an infinite structure.
+### Start from an initial value to build up an infinite structure.
 
 ---
 
@@ -46,7 +46,6 @@ autoscale: true
 
  * Produce the next state of the UI given a user-input
  * Produce current state of config given update to config
- * Produce the next sort of a list given a new element
  * Transform stream of requests to responses
  * Produce (all) the digits of pi
 
@@ -65,6 +64,7 @@ autoscale: true
  * Data processing
  * Web servers
  * User-interfaces
+ * Discrete "FRP"
  * So much more...
 
 ---
@@ -88,6 +88,7 @@ autoscale: true
  * Java Streams
  * Scalaz-Streams
  * FS<sup>2</sup>
+ * Big Data: Spark, Flink, Pachyderm, Kafka, ad infinitum...
 
 ---
 
@@ -118,17 +119,18 @@ AbruptTerminationException AbstractShape ActorAttributes ActorMaterializer Actor
 ### Huh?
 
 ```scala
+// For Functor `F`
 final case class Cofree[F[_], A](head: A, tail: F[Cofree[F, A]])
 ```
 
 ---
 
-# Cofree
+# Cofree: Take 1
 ### Cofree[F, A] is a coinductive process that generates `A`'s using effect `F`.
 
 ---
 
-# Cofree
+# Cofree: Take 2
 ### Cofree[F, A] is a current position `A` on a landscape that requires effect `F` to move to a new position.
 
 ---
@@ -138,7 +140,7 @@ final case class Cofree[F[_], A](head: A, tail: F[Cofree[F, A]])
 
  * Where am I? `def extract(f: Cofree[F, A]): A`
  * Terraform! `def extend(f: Cofree[F, A] => B): Cofree[F, B]`
- * Plus `Functor`
+ * Plus `Functor`!
 
 ---
 
@@ -148,7 +150,7 @@ final case class Cofree[F[_], A](head: A, tail: F[Cofree[F, A]])
 ```scala
 final case class Cofree[F[_], A](head: A, tail: F[Cofree[F, A]])
 
-// final case class Name[A](() => A)
+// final case class Name[A](run: => A)
 val fibs: Cofree[Name, Int] = {
   def unfold(prev1: Int, prev2: Int): Cofree[Name, Int] =
     Cofree(prev1 + prev2, Name(unfold(prev2, prev1 + prev2)))
@@ -192,8 +194,12 @@ def disperse[F[_]: ApplicativePlus, A](seq: Seq[A]): Option[Cofree[F, A]] =
 ### Zip
 
 ```scala
-def zipWith[F[_]: Zip: Functor, A, B, C](c1: Cofree[F, A], c2: Cofree[F, B])(f: (A, B) => C): Cofree[F, C] =
-  Cofree(f(c1.head, c2.head), Zip[F].zipWith(c1.tail, c2.tail)(zipWith(_, _)(f)))
+def zipWith[F[_]: Zip: Functor, A, B, C](
+    c1: Cofree[F, A], c2: Cofree[F, B])(
+      f: (A, B) => C): Cofree[F, C] =
+  Cofree(
+    f(c1.head, c2.head), 
+    Zip[F].zipWith(c1.tail, c2.tail)(zipWith(_, _)(f)))
 ```
 
 ---
@@ -202,7 +208,8 @@ def zipWith[F[_]: Zip: Functor, A, B, C](c1: Cofree[F, A], c2: Cofree[F, B])(f: 
 ### Scan
 
 ```scala
-def scan[F[_]: Functor, A, S](c: Cofree[F, A])(s: S)(f: (S, A) => S): Cofree[F, S] = {
+def scan[F[_]: Functor, A, S](
+    c: Cofree[F, A])(s: S)(f: (S, A) => S): Cofree[F, S] = {
   val s2 = f(s, c.head)
 
   Cofree(s2, c.tail.map(scan(_)(s2)(f)))
@@ -219,6 +226,7 @@ def scan[F[_]: Functor, A, S](c: Cofree[F, A])(s: S)(f: (S, A) => S): Cofree[F, 
 def zeros[F[_]: Functor, A: Monoid](c: Cofree[F, A])(p: A => Boolean): Cofree[F, A] =
   if (p(c.head)) Cofree(c.head, c.tail.map(zeros(_)(p)))
   else Cofree(mzero[A], c.tail.map(zeros(_)(p)))
+
 def filter[F[_]: Monad, A](c: Cofree[F, A])(p: A => Boolean): F[Cofree[F, A]] =
   if (p(c.head)) Cofree(c.head, c.tail.flatMap(filter(_)(p))).point[F]
   else c.tail.flatMap(filter(_)(p))
