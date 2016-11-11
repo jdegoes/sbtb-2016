@@ -138,6 +138,7 @@ final case class Cofree[F[_], A](head: A, tail: F[Cofree[F, A]])
 
  * Where am I? `def extract(f: Cofree[F, A]): A`
  * Terraform! `def extend(f: Cofree[F, A] => B): Cofree[F, B]`
+ * Plus `Functor`
 
 ---
 
