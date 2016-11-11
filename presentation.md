@@ -350,7 +350,7 @@ def productWith[F[_]: Functor, G[_]: Functor, A, B, C](
 ---
 
 # Challenge
-### Go Do Something That's Not Ad Hoc...
+### Go Do Something That's A Tiny Bit Simpler...A Bit More Functional...
 
 ---
 
